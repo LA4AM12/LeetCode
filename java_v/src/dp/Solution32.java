@@ -1,5 +1,8 @@
 package dp;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * @author : LA4AM12
  * @create : 2021-11-09 14:09:53
@@ -14,13 +17,10 @@ public class Solution32 {
 		int[] dp = new int[len];
 
 		for (int i = 1; i < len; i++) {
-			if (s.charAt(i) == ')') {
-				if (s.charAt(i - 1) == '(') {
-					dp[i] = i - 2 >= 0 ? dp[i - 2] + 2 : 2;
-				} else if (i - 1 - dp[i - 1] >= 0 && s.charAt(i - 1 - dp[i - 1]) == '(') {
-					int pre = i - 2 - dp[i - 1] >= 0 ? dp[i - 2 - dp[i - 1]] : 0;
-					dp[i] = dp[i - 1] + 2 + pre;
-				}
+			// i - 1 - dp[i - 1] symmetric to the current ')'
+			if (s.charAt(i) == ')' && i - 1 - dp[i - 1] >= 0 && s.charAt(i - 1 - dp[i - 1]) == '(') {
+				int pre = i - 2 - dp[i - 1] >= 0 ? dp[i - 2 - dp[i - 1]] : 0;
+				dp[i] = dp[i - 1] + 2 + pre;
 				ans = Math.max(ans, dp[i]);
 			}
 		}
