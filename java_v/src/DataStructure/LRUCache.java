@@ -1,7 +1,7 @@
 package DataStructure;
 
+
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -23,13 +23,12 @@ class LRUCache {
 		}
 	}
 
-	private Map<Integer,Entry> cache = new HashMap<>();
-	private int size;
+	private Map<Integer,Entry> cache;
 	private int capacity;
 	private Entry head, tail;
 
 	public LRUCache(int capacity) {
-		this.size = 0;
+		cache = new HashMap<>(capacity);
 		this.capacity = capacity;
 
 		//dummy head & tail
@@ -53,17 +52,14 @@ class LRUCache {
 	public void put(int key, int value) {
 		Entry entry = cache.get(key);
 		if (entry == null) {
-			Entry newEntry = new Entry(key, value);
-			cache.put(key,newEntry);
-
-			addToHead(newEntry);
-			++size;
-
-			if (size > capacity){
+			if (cache.size() == capacity){
 				cache.remove(tail.before.key);
 				remove(tail.before);
-				--size;
 			}
+
+			Entry newEntry = new Entry(key, value);
+			cache.put(key,newEntry);
+			addToHead(newEntry);
 		}else {
 			entry.value = value;
 			moveToHead(entry);
@@ -78,6 +74,7 @@ class LRUCache {
 	private void remove(Entry entry) {
 		entry.before.after = entry.after;
 		entry.after.before = entry.before;
+		entry.before = entry.after = null;  //help GC
 	}
 
 	private void addToHead(Entry entry) {
