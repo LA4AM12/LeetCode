@@ -1,4 +1,4 @@
-package linkedlist;
+package Recursive;
 
 import Offer.struct.ListNode;
 
