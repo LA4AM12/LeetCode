@@ -2,20 +2,19 @@ package medium
 
 // leetcode-0494 2021/4/19
 
-//回溯
-func findTargetSumWays1(nums []int, target int) int {
+func findTargetSumWays(nums []int, target int) int {
 	var res int
-	var backtrack func(int, int)
+	var backtrack func(cur, sum int)
 
-	backtrack = func(sum, cur int) {
+	backtrack = func(cur, sum int) {
 		if cur == len(nums) {
 			if sum == target {
 				res++
 			}
 			return
 		}
-		backtrack(sum-nums[cur], cur+1)
-		backtrack(sum+nums[cur], cur+1)
+		backtrack(cur+1, sum+nums[cur])
+		backtrack(cur+1, sum-nums[cur])
 	}
 
 	backtrack(0, 0)

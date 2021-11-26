@@ -1,6 +1,10 @@
 package dp;
 
-import java.lang.annotation.Target;
+/**
+ * @author : LA4AM12
+ * @create : 2021-11-26 19:01:30
+ * @description : Target Sum
+ */
 
 public class Solution494 {
     public int findTargetSumWays(int[] nums, int target) {
