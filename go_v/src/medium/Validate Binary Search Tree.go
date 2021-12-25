@@ -1,20 +1,28 @@
 package medium
 
-import "math"
-
 // leetcode-0098 2021/3/21
 
 func isValidBST(root *TreeNode) bool {
-	var check func(*TreeNode, int, int) bool
-	check = func(node *TreeNode, min int, max int) bool {
+	var pre *TreeNode //保存上一个指针
+
+	var travel func(*TreeNode) bool
+
+	travel = func(node *TreeNode) bool {
 		if node == nil {
 			return true
 		}
-		if node.Val > min && node.Val < max {
-			return check(node.Left, min, node.Val) && check(node.Right, node.Val, max)
-		} else {
+
+		// 中序遍历  --  验证是否为递增顺序
+		left := travel(node.Left)
+
+		if pre != nil && node.Val <= pre.Val {
 			return false
 		}
+		pre = node
+		right := travel(node.Right)
+
+		return left && right
 	}
-	return check(root, math.MinInt64, math.MaxInt64)
+
+	return travel(root)
 }
