@@ -1,7 +1,10 @@
 package backtracking;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : LA4AM12
@@ -9,32 +12,25 @@ import java.util.List;
  * @description : Permutations
  */
 public class Solution46 {
-	private List<List<Integer>> ans = new ArrayList<>();
-	private List<Integer> p ;
-	private boolean[] flags;
-	int len;
+    List<List<Integer>> ans = new ArrayList<>();
 
-	public List<List<Integer>> permute(int[] nums) {
-		len = nums.length;
-		p = new ArrayList<>(len);
-		flags = new boolean[len];
-		tracing(nums,0);
-		return ans;
-	}
+    public List<List<Integer>> permute(int[] nums) {
+        List<Integer> arr = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        backtrack(arr, 0);
+        return ans;
+    }
 
-	private void tracing(int[] nums, int index) {
-		if (index == len) {
-			ans.add(new ArrayList<>(p));
-			return;
-		}
-		for (int i = 0; i < nums.length; i++) {
-			if (!flags[i]) {
-				p.add(nums[i]);
-				flags[i] = true;
-				tracing(nums,index+1);
-				flags[i] = false;
-				p.remove(index);
-			}
-		}
-	}
+    private void backtrack(List<Integer> arr, int cur) {
+        if (cur == arr.size()) {
+            ans.add(new ArrayList<>(arr));
+            return;
+        }
+
+        for (int i = cur; i < arr.size(); i++) {
+            Collections.swap(arr, cur, i);
+            backtrack(arr, cur + 1);
+            // backtrack
+            Collections.swap(arr, cur, i);
+        }
+    }
 }
