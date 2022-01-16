@@ -1,32 +1,20 @@
 package medium
 
+import "math"
+
 // leetcode-0045 2021/05/12
 
 func jump(nums []int) int {
-	n := len(nums)
+	// 以最小的步数增加覆盖范围，覆盖范围一旦覆盖了终点，得到的就是最小步数！
+	var curRange, nextRange int //当前覆盖的最远距离下标 & 下一步覆盖的最远距离下标
+	var ans int
 
-
-	pos := 0    //当前跳到的位置
-
-	//第i次跳  最多就跳n-1次
-	for i := 1; i < n; i++ {
-
-		if nums[pos] + pos >= n-1 {
-			return i
+	for i := 0; i < len(nums)-1; i++ { // 只移动到 len(nums) - 2 的位置
+		nextRange = int(math.Max(float64(i+nums[i]), float64(nextRange)))
+		if i == curRange {
+			curRange = nextRange
+			ans++
 		}
-
-		max := 0
-		next := 0
-
-		for j := 1; j <= nums[pos]; j++ {
-
-			//选出满足nums[pos+j]+pos+j最大的j
-			if max < nums[pos+j]+pos+j {
-				max = nums[pos+j]+pos+j
-				next = j
-			}
-		}
-		pos = pos + next
 	}
-	return 0
+	return ans
 }
