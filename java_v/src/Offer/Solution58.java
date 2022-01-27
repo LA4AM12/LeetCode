@@ -2,7 +2,7 @@ package Offer;
 
 public class Solution58 {
     public String reverseWords(String s) {
-        String[] arr = s.stripLeading().split("[ ]+");
+        String[] arr = s.trim().split("[ ]+");
         int len = arr.length;
         StringBuilder builder = new StringBuilder(arr[len-1]);
 

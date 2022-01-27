@@ -2,7 +2,7 @@ package Offer;
 
 public class Solution08 {
     public int strToInt(String str) {
-        char[] c = str.stripLeading().toCharArray();
+        char[] c = str.trim().toCharArray();
         if(c.length == 0) return 0;
         int res = 0, bndry = Integer.MAX_VALUE / 10;
         int i = 1;

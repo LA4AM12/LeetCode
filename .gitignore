@@ -2,3 +2,5 @@ java_v/.idea
 go_v/.idea
 java_v/out
 *.iml
+java_v/src/test.java
+go_v/src/main.go

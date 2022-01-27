@@ -12,9 +12,12 @@ import java.util.Queue;
  */
 public class Solution958 {
 	public boolean isCompleteTree(TreeNode root) {
-		Queue<TreeNode> queue = new LinkedList<>() {{
-			add(root);
-		}};
+		// Queue<TreeNode> queue = new LinkedList<>() {{
+		// 	add(root);
+		// }};
+
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
 
 		while (!queue.isEmpty()) {
 			TreeNode node = queue.poll();

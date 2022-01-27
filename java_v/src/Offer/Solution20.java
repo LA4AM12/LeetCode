@@ -3,7 +3,7 @@ package Offer;
 public class Solution20 {
     public boolean isNumber(String s) {
         boolean flag = true;
-        s = s.strip();
+        s = s.trim();
         //找一下是否有 e/E
         int id_e = s.indexOf('e');
         int id_E = s.indexOf('E');
