@@ -10,53 +10,41 @@ import java.util.*;
  * @description : All Nodes Distance K in Binary Tree
  */
 public class Solution863 {
-    // Annotate Parent
-    private Map<TreeNode, TreeNode> parentMap;
+	// Annotate Parent
+	private Map<TreeNode, TreeNode> parent = new HashMap<>();
 
-    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        parentMap = new HashMap<>();
-        Queue<TreeNode> queue = new LinkedList();
-        Set<TreeNode> seen = new HashSet<>();
-        List<Integer> ans = new ArrayList<>();
+	public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+		Queue<TreeNode> queue = new LinkedList<>() {{add(target);}};
+		Set<TreeNode> seen = new HashSet<>() {{add(target);add(null);}};
+		mapParent(root, null);
 
-        mapParent(root, null);
+		while (k-- > 0) {
+			int size = queue.size();
+			while (size-- > 0) {
+				TreeNode node = queue.remove();
+				if (!seen.contains(node.left)) {
+					queue.add(node.left);
+					seen.add(node.left);
+				}
+				if (!seen.contains(node.right)) {
+					queue.add(node.right);
+					seen.add(node.right);
+				}
+				if (!seen.contains(parent.getOrDefault(node, null))) {
+					queue.add(parent.get(node));
+					seen.add(parent.get(node));
+				}
+			}
+		}
+		List<Integer> ans = new LinkedList<>();
+		queue.forEach(o -> ans.add(o.val));
+		return ans;
+	}
 
-        queue.add(null);  // check point
-        queue.add(target);
-        seen.add(null);
-        seen.add(target);
-
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.poll();
-            if (node == null) {
-                if (k == 0) {
-                    queue.forEach(o -> ans.add(o.val));
-                    break;
-                }
-                k--;
-                queue.offer(null);  // check point
-            } else {
-                if (!seen.contains(node.left)) {
-                    seen.add(node.left);
-                    queue.offer(node.left);
-                }
-                if (!seen.contains(node.right)) {
-                    seen.add(node.right);
-                    queue.offer(node.right);
-                }
-                if (!seen.contains(parentMap.get(node))) {
-                    seen.add(parentMap.get(node));
-                    queue.offer(parentMap.get(node));
-                }
-            }
-        }
-        return ans;
-    }
-
-    private void mapParent(TreeNode cur, TreeNode parent) {
-        if (cur == null) return;
-        parentMap.put(cur, parent);
-        mapParent(cur.left, cur);
-        mapParent(cur.right, cur);
-    }
+	private void mapParent(TreeNode n, TreeNode p) {
+		if (n == null) return;
+		parent.put(n, p);
+		mapParent(n.left, n);
+		mapParent(n.right, n);
+	}
 }
